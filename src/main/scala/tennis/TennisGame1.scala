@@ -20,10 +20,14 @@ class TennisGame1(val player1Name: String, val player2Name: String) extends Tenn
         case 2 => "Thirty-All"
         case _ => "Deuce"
       }
-      case Game => if (m_score1 > m_score2) "Win for player1" else "Win for player2"
-      case Advantage => if (m_score1 > m_score2) "Advantage player1" else "Advantage player2"
+      case Game => s"Win for ${higherScorePlayer()}"
+      case Advantage => s"Advantage ${higherScorePlayer()}"
       case Standard => s"${scoreName(m_score1)}-${scoreName(m_score2)}"
     }
+  }
+
+  private def higherScorePlayer(): String = {
+    if (m_score1 > m_score2) "player1" else "player2"
   }
 
   private def scoreName(score: Int) = score match {
