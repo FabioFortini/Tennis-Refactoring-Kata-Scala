@@ -12,7 +12,7 @@ class TennisGame1(val player1Name: String, val player2Name: String) extends Tenn
   }
 
   def calculateScore(): String = {
-    if (m_score1 == m_score2) {
+    if (isParity(m_score1, m_score2)) {
       m_score1 match {
         case 0 => "Love-All"
         case 1 => "Fifteen-All"
@@ -27,10 +27,13 @@ class TennisGame1(val player1Name: String, val player2Name: String) extends Tenn
       if (minusResult >= 2) return "Win for player1"
       "Win for player2"
     }
-    else {
+    else if (isStandard) {
       s"${scoreName(m_score1)}-${scoreName(m_score2)}"
-    }
+    } else ""
   }
+
+  private def isStandard = true
+  private def isParity(score1: Int, score2: Int) = score1 == score2
 
   private def scoreName(score: Int) = score match {
     case 0 => "Love"
