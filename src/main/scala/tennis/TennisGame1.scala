@@ -29,20 +29,17 @@ class TennisGame1(val player1Name: String, val player2Name: String) extends Tenn
       else score = "Win for player2"
     }
     else {
-      val score1String = m_score1 match {
-        case 0 => "Love"
-        case 1 => "Fifteen"
-        case 2 => "Thirty"
-        case 3 => "Forty"
-      }
-      val score2String = m_score2 match {
-        case 0 => "Love"
-        case 1 => "Fifteen"
-        case 2 => "Thirty"
-        case 3 => "Forty"
-      }
+      val score1String = scoreName(m_score1)
+      val score2String = scoreName(m_score2)
       score = s"$score1String-$score2String"
     }
     score
+  }
+
+  private def scoreName(score: Int) = score match {
+    case 0 => "Love"
+    case 1 => "Fifteen"
+    case 2 => "Thirty"
+    case 3 => "Forty"
   }
 }
