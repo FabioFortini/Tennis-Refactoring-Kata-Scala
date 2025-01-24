@@ -29,9 +29,7 @@ class TennisGame1(val player1Name: String, val player2Name: String) extends Tenn
       else score = "Win for player2"
     }
     else {
-      val score1String = scoreName(m_score1)
-      val score2String = scoreName(m_score2)
-      score = s"$score1String-$score2String"
+      return s"${scoreName(m_score1)}-${scoreName(m_score2)}"
     }
     score
   }
