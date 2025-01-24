@@ -1,11 +1,13 @@
 package tennis
 
-class TennisGame1(val player1Name: String, val player2Name: String) extends TennisGame {
+class TennisGame1(val player1: Player, val player2: Player) extends TennisGame {
   private var m_score1: Int = 0
   private var m_score2: Int = 0
 
+  def this(player1Name: String, player2Name: String) = this(Player(player1Name, 0), Player(player2Name, 0))
+
   def wonPoint(playerName: String): Unit = {
-    if (playerName == "player1")
+    if (playerName == player1.name)
       m_score1 += 1
     else
       m_score2 += 1
@@ -27,7 +29,7 @@ class TennisGame1(val player1Name: String, val player2Name: String) extends Tenn
   }
 
   private def higherScorePlayer(): String = {
-    if (m_score1 > m_score2) "player1" else "player2"
+    if (m_score1 > m_score2) player1.name else player2.name
   }
 
   private def scoreName(score: Int) = score match {
