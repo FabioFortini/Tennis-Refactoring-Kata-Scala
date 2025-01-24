@@ -20,12 +20,11 @@ class TennisGame1(val player1Name: String, val player2Name: String) extends Tenn
         case _ => "Deuce"
       }
     }
-    else if (m_score1 >= 4 || m_score2 >= 4) {
-      val minusResult = m_score1 - m_score2
-      if (minusResult == 1) return "Advantage player1"
-      if (minusResult == -1) return "Advantage player2"
-      if (minusResult >= 2) return "Win for player1"
-      "Win for player2"
+    else if((m_score1 >= 4 || m_score2 >= 4) && math.abs(m_score1 - m_score2) >= 2) {
+      if (m_score1 > m_score2) "Win for player1" else "Win for player2"
+    }
+    else if (m_score1 >= 4 || m_score2 >= 4 ) {
+      if (m_score1 > m_score2) "Advantage player1" else "Advantage player2"
     }
     else if (isStandard) {
       s"${scoreName(m_score1)}-${scoreName(m_score2)}"
