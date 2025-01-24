@@ -19,13 +19,13 @@ class TennisGame1(var player1: Player, var player2: Player) extends TennisGame {
         case 2 => "Thirty-All"
         case _ => "Deuce"
       }
-      case Game => s"Win for ${higherScorePlayer()}"
-      case Advantage => s"Advantage ${higherScorePlayer()}"
+      case Game => s"Win for ${higherScorePlayer(player1, player2)}"
+      case Advantage => s"Advantage ${higherScorePlayer(player1, player2)}"
       case Standard => s"${scoreName(player1.score)}-${scoreName(player2.score)}"
     }
   }
 
-  private def higherScorePlayer(): String = {
+  private def higherScorePlayer(player1: Player, player2: Player): String = {
     if (player1.score > player2.score) player1.name else player2.name
   }
 
