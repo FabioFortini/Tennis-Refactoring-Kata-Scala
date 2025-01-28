@@ -13,20 +13,16 @@ class TennisGame1(var player1: Player, var player2: Player) extends TennisGame {
   def calculateScore(): String = {
     val phase = Phases.from(player1, player2)
     phase match {
-      case Parity => player1.score match {
+      case Parity(score) => score match {
         case 0 => "Love-All"
         case 1 => "Fifteen-All"
         case 2 => "Thirty-All"
         case _ => "Deuce"
       }
-      case Game => s"Win for ${higherScorePlayer(player1, player2)}"
-      case Advantage => s"Advantage ${higherScorePlayer(player1, player2)}"
-      case Standard => s"${scoreName(player1.score)}-${scoreName(player2.score)}"
+      case Game(player) => s"Win for ${player.name}"
+      case Advantage(player) => s"Advantage ${player.name}"
+      case Standard(player1, player2) => s"${scoreName(player1.score)}-${scoreName(player2.score)}"
     }
-  }
-
-  private def higherScorePlayer(player1: Player, player2: Player): String = {
-    if (player1.score > player2.score) player1.name else player2.name
   }
 
   private def scoreName(score: Int) = score match {
