@@ -11,7 +11,7 @@ class TennisGame1(var player1: Player, var player2: Player) extends TennisGame {
   }
 
   def calculateScore(): String = {
-    val phase = Phases.from(player1.score, player2.score)
+    val phase = Phases.from(player1, player2)
     phase match {
       case Parity => player1.score match {
         case 0 => "Love-All"

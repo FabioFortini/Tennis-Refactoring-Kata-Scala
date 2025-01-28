@@ -7,10 +7,10 @@ case object Standard extends Phases
 case object Parity extends Phases
 
 object Phases {
-  def from(score1: Int, score2: Int): Phases = {
-    if(score1 == score2) return Parity
-    if((score1 >= 4 || score2 >= 4) && math.abs(score1 - score2) >= 2) return Game
-    if(score1 >= 4 || score2 >= 4) return Advantage
+  def from(player1: Player, player2: Player): Phases = {
+    if (player1.score == player2.score) return Parity
+    if ((player1.score >= 4 || player2.score >= 4) && math.abs(player1.score - player2.score) >= 2) return Game
+    if (player1.score >= 4 || player2.score >= 4) return Advantage
     Standard
   }
 }
