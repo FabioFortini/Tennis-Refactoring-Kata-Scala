@@ -21,7 +21,7 @@ class TennisGame1(var player1: Player, var player2: Player) extends TennisGame {
       }
       case Game(player) => s"Win for ${player.name}"
       case Advantage(player) => s"Advantage ${player.name}"
-      case Standard(player1, player2) => s"${scoreName(player1.score)}-${scoreName(player2.score)}"
+      case Standard(score1, score2) => s"${scoreName(score1)}-${scoreName(score2)}"
     }
   }
 

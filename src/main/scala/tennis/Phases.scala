@@ -3,7 +3,7 @@ package tennis
 sealed trait Phases
 case class Advantage(player: Player) extends Phases
 case class Game(player: Player) extends Phases
-case class Standard(p1: Player, p2: Player) extends Phases
+case class Standard(s1: Int, s2: Int) extends Phases
 case class Parity(score: Int) extends Phases
 
 object Phases {
@@ -16,6 +16,6 @@ object Phases {
     if ((player1.score >= 4 || player2.score >= 4) && math.abs(player1.score - player2.score) >= 2)
       return Game(higherScorePlayer(player1, player2))
     if (player1.score >= 4 || player2.score >= 4) return Advantage(higherScorePlayer(player1, player2))
-    Standard(player1, player2)
+    Standard(player1.score, player2.score)
   }
 }
