@@ -15,22 +15,22 @@ case class ScoreBoard() {
       case Advantage(name) if name == player.name => Game(player.name)
       case Advantage(_) => Deuce
       case Deuce => Advantage(player.name)
-      case Standard => standardNext(player)
+      case Standard => player match {
+        case Player1(name) => _scores match {
+          case (Forty, _) => Game(name)
+          case (Thirty, Forty) => Deuce
+          case _ => Standard
+        }
+        case Player2(name) => _scores match {
+          case (_, Forty) => Game(name)
+          case (Forty, Thirty) => Deuce
+          case _ => Standard
+        }
+      }
     }
     _scores = player match {
       case Player1(_) => (_scores._1.next, _scores._2)
       case Player2(_) => (_scores._1, _scores._2.next)
     }
-  }
-
-  private def standardNext(player: Player): Phases = playerScoreBoard(player) match {
-    case (Forty, _) => Game(player.name)
-    case (Thirty, Forty) => Deuce
-    case _ => Standard
-  }
-
-  private def playerScoreBoard(player: Player): (Score, Score) = player match {
-    case Player1(_) => (_scores._1, _scores._2)
-    case Player2(_) => (_scores._2, _scores._1)
   }
 }
