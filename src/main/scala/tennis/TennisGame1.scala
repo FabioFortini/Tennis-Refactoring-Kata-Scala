@@ -8,23 +8,23 @@ case class ScoreBoard(player1Name: Name, player2Name: Name) {
   def phase: Phases = _phase
 
   def pointPlayer1: Unit = _phase = _phase match {
-    case Standard(Love, score2) => Standard(Fifteen, score2)
-    case Standard(Fifteen, score2) => Standard(Thirty, score2)
-    case Standard(Thirty, Forty) => Deuce
-    case Standard(Thirty, score2) => Standard(Forty, score2)
-    case Standard(Forty, _) => Game(player1Name)
-    case Deuce => Advantage(player1Name)
     case Advantage(playerName) => if (playerName == player1Name) Game(player1Name) else Deuce
+    case Deuce => Advantage(player1Name)
+    case Standard(Forty, _) => Game(player1Name)
+    case Standard(Thirty, Forty) => Deuce
+    case Standard(Thirty, _other) => Standard(Forty, _other)
+    case Standard(Fifteen, _other) => Standard(Thirty, _other)
+    case Standard(Love, _other) => Standard(Fifteen, _other)
   }
 
   def pointPlayer2: Unit = _phase = _phase match {
-    case Standard(score2, Love) => Standard(score2, Fifteen)
-    case Standard(score2, Fifteen) => Standard(score2, Thirty)
-    case Standard(Forty, Thirty) => Deuce
-    case Standard(score2, Thirty) => Standard(score2, Forty)
-    case Standard(_, Forty) => Game(player2Name)
-    case Deuce => Advantage(player2Name)
     case Advantage(playerName) => if (playerName == player2Name) Game(player2Name) else Deuce
+    case Deuce => Advantage(player2Name)
+    case Standard(_, Forty) => Game(player2Name)
+    case Standard(Forty, Thirty) => Deuce
+    case Standard(_other, Thirty) => Standard(_other, Forty)
+    case Standard(_other, Fifteen) => Standard(_other, Thirty)
+    case Standard(_other, Love) => Standard(_other, Fifteen)
   }
 }
 
