@@ -23,5 +23,5 @@ object Players {
   case object Love extends Score { def next: Score = Fifteen }
   case object Fifteen extends Score { def next: Score = Thirty }
   case object Thirty extends Score { def next: Score = Forty }
-  case object Forty extends Score { def next: Score = null }
+  case object Forty extends Score { def next: Score = Forty }
 }
