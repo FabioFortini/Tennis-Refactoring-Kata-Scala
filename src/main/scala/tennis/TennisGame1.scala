@@ -1,9 +1,11 @@
 package tennis
 
-class TennisGame1(var player1: Player, var player2: Player) extends TennisGame {
-  def this(player1Name: String, player2Name: String) = this(Player(player1Name, 0), Player(player2Name, 0))
+import tennis.Player.Name
 
-  def wonPoint(playerName: String): Unit = {
+class TennisGame1(var player1: Player, var player2: Player) extends TennisGame {
+  def this(player1Name: Name, player2Name: Name) = this(Player(player1Name, 0), Player(player2Name, 0))
+
+  def wonPoint(playerName: Name): Unit = {
     if (playerName == player1.name)
       player1 = player1.copy(score = player1.score + 1)
     else
@@ -19,8 +21,8 @@ class TennisGame1(var player1: Player, var player2: Player) extends TennisGame {
         case 2 => "Thirty-All"
         case _ => "Deuce"
       }
-      case Game(player) => s"Win for ${player.name}"
-      case Advantage(player) => s"Advantage ${player.name}"
+      case Game(playerName) => s"Win for $playerName"
+      case Advantage(playerName) => s"Advantage $playerName"
       case Standard(score1, score2) => s"${scoreName(score1)}-${scoreName(score2)}"
     }
   }

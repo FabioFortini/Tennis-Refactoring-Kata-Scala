@@ -1,14 +1,16 @@
 package tennis
 
+import tennis.Player.{Name, Score}
+
 sealed trait Phases
-case class Advantage(player: Player) extends Phases
-case class Game(player: Player) extends Phases
-case class Standard(s1: Int, s2: Int) extends Phases
-case class Parity(score: Int) extends Phases
+case class Advantage(playerName: Name) extends Phases
+case class Game(playerName: Name) extends Phases
+case class Standard(score1: Score, score2: Score) extends Phases
+case class Parity(score: Score) extends Phases
 
 object Phases {
-  private def higherScorePlayer(player1: Player, player2: Player): Player = {
-    if (player1.score > player2.score) player1 else player2
+  private def higherScorePlayer(player1: Player, player2: Player): Name = {
+    if (player1.score > player2.score) player1.name else player2.name
   }
 
   def from(player1: Player, player2: Player): Phases = {
