@@ -17,14 +17,8 @@ class TennisGame1(val players: Players) extends TennisGame {
       case Game(playerName) => s"Win for $playerName"
       case Advantage(playerName) => s"Advantage $playerName"
       case Deuce => "Deuce"
-      case Standard => {
-        val (score1, score2) = scoreBoard.scores
-        if (score1 == score2)
-          s"$score1-All"
-        else
-          s"$score1-$score2"
-      }
-      //      case Standard(score1, score2) => s"$score1-$score2"
+      case Standard(score1, score2) if score1 == score2 => s"$score1-All"
+      case Standard(score1, score2) => s"$score1-$score2"
     }
   }
 }
