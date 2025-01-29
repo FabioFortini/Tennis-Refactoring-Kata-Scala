@@ -3,19 +3,14 @@ package tennis
 import tennis.Player.{Fifteen, Forty, Love, Name, Thirty}
 
 case class ScoreBoard(player1Name: Name, player2Name: Name) {
-  private var _phase: Phases = Parity(Love)
+  private var _phase: Phases = Standard(Love, Love)
 
   def phase: Phases = _phase
 
   def pointPlayer1: Unit = _phase = _phase match {
-    case Parity(Love) => Standard(Fifteen, Love)
-    case Standard(Love, Fifteen) => Parity(Fifteen)
-    case Parity(Fifteen) => Standard(Thirty, Fifteen)
-    case Standard(Fifteen, Thirty) => Parity(Thirty)
-    case Parity(Thirty) => Standard(Forty, Thirty)
-    case Standard(Thirty, Forty) => Deuce
     case Standard(Love, score2) => Standard(Fifteen, score2)
     case Standard(Fifteen, score2) => Standard(Thirty, score2)
+    case Standard(Thirty, Forty) => Deuce
     case Standard(Thirty, score2) => Standard(Forty, score2)
     case Standard(Forty, _) => Game(player1Name)
     case Deuce => Advantage(player1Name)
@@ -23,14 +18,9 @@ case class ScoreBoard(player1Name: Name, player2Name: Name) {
   }
 
   def pointPlayer2: Unit = _phase = _phase match {
-    case Parity(Love) => Standard(Love, Fifteen)
-    case Standard(Fifteen, Love) => Parity(Fifteen)
-    case Parity(Fifteen) => Standard(Fifteen, Thirty)
-    case Standard(Thirty, Fifteen) => Parity(Thirty)
-    case Parity(Thirty) => Standard(Thirty, Forty)
-    case Standard(Forty, Thirty) => Deuce
     case Standard(score2, Love) => Standard(score2, Fifteen)
     case Standard(score2, Fifteen) => Standard(score2, Thirty)
+    case Standard(Forty, Thirty) => Deuce
     case Standard(score2, Thirty) => Standard(score2, Forty)
     case Standard(_, Forty) => Game(player2Name)
     case Deuce => Advantage(player2Name)
@@ -51,13 +41,11 @@ class TennisGame1(var player1: Player, var player2: Player) extends TennisGame {
   }
 
   def calculateScore(): String = {
-    val phase = scoreBoard.phase
-    phase match {
-      case Parity(score) => s"$score-All"
-      case Deuce => "Deuce"
+    scoreBoard.phase match {
       case Game(playerName) => s"Win for $playerName"
       case Advantage(playerName) => s"Advantage $playerName"
-      case Standard(score1, score2) => s"$score1-$score2"
+      case Deuce => "Deuce"
+      case Standard(score1, score2) => if (score1 == score2) s"$score1-All" else  s"$score1-$score2"
     }
   }
 }
