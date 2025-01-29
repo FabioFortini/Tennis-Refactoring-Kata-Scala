@@ -1,6 +1,6 @@
 package tennis
 
-import tennis.Players.{Fifteen, Forty, Love, Name, Player, Player1, Player2, Thirty}
+import tennis.Players._
 
 
 case class ScoreBoard() {
@@ -8,29 +8,28 @@ case class ScoreBoard() {
 
   def phase: Phases = _phase
 
-  def point(player: Player) = player match {
-    case Player1(name) => pointPlayer1(name)
-    case Player2(name) => pointPlayer2(name)
+  def point(player: Player): Unit = {
+    _phase = _phase match {
+      case Advantage(name) if name == player.name => Game(player.name)
+      case Advantage(_) => Deuce
+      case Deuce => Advantage(player.name)
+      case standard: Standard => standardNext(standard, player)
+    }
   }
 
-  private def pointPlayer1(playerName: Name): Unit = _phase = _phase match {
-    case Advantage(name) if name == playerName => Game(playerName)
-    case Advantage(_) => Deuce
-    case Deuce => Advantage(playerName)
-    case Standard(Forty, _) => Game(playerName)
-    case Standard(Thirty, Forty) => Deuce
-    case Standard(Thirty, _other) => Standard(Forty, _other)
-    case Standard(Fifteen, _other) => Standard(Thirty, _other)
-    case Standard(Love, _other) => Standard(Fifteen, _other)
+  private def standardNext(standard: Standard, player: Player): Phases = playerScoreBoard(standard, player) match {
+    case PlayerScoreBoard(Forty, _) => Game(player.name)
+    case PlayerScoreBoard(Thirty, Forty) => Deuce
+    case _ => player match {
+      case Player1(_) => Standard(standard.score1.next, standard.score2)
+      case Player2(_) => Standard(standard.score1, standard.score2.next)
+    }
   }
 
-  private def pointPlayer2(playerName: Name): Unit = _phase = _phase match {
-    case Advantage(name) => if (name == playerName) Game(playerName) else Deuce
-    case Deuce => Advantage(playerName)
-    case Standard(_, Forty) => Game(playerName)
-    case Standard(Forty, Thirty) => Deuce
-    case Standard(_other, Thirty) => Standard(_other, Forty)
-    case Standard(_other, Fifteen) => Standard(_other, Thirty)
-    case Standard(_other, Love) => Standard(_other, Fifteen)
+  def playerScoreBoard(standard: Standard, player: Player): PlayerScoreBoard = player match {
+    case Player1(_) => PlayerScoreBoard(standard.score1, standard.score2)
+    case Player2(_) => PlayerScoreBoard(standard.score2, standard.score1)
   }
+
+  case class PlayerScoreBoard(myScore: Score, otherScore: Score)
 }

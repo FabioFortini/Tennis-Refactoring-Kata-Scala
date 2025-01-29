@@ -17,9 +17,11 @@ object Players {
 
   type Name = String
 
-  sealed trait Score
-  case object Love extends Score
-  case object Fifteen extends Score
-  case object Thirty extends Score
-  case object Forty extends Score
+  sealed trait Score {
+    def next: Score
+  }
+  case object Love extends Score { def next: Score = Fifteen }
+  case object Fifteen extends Score { def next: Score = Thirty }
+  case object Thirty extends Score { def next: Score = Forty }
+  case object Forty extends Score { def next: Score = null }
 }
